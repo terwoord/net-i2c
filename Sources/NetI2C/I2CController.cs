@@ -3,30 +3,31 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Schema;
+using Microsoft.Win32.SafeHandles;
 
 namespace NetI2C
 {
-    public class I2CController
+    public class I2CController: I2CControllerBase
     {
         private readonly int mNumber;
 
         public I2CController(int number)
         {
-            if (I2CControllerInfo.GetControllers().All(i => i.Number != number))
-            {
-                throw new ArgumentException("Specified controller not found!", nameof(number));
-            }
+            //if (I2CControllerInfo.GetControllers().All(i => i.Number != number))
+            //{
+            //    throw new ArgumentException("Specified controller not found!", nameof(number));
+            //}
             mNumber = number;
         }
 
         public IEnumerable<byte> FindDevices()
         {
-            using (var xStream = OpenDevice(mNumber))
+            using (var xHandle = OpenController())
             {
                 Console.WriteLine("Device opened!");
                 for (byte i = 0; i < 128; i++)
                 {
-                    var xResult = LibC.Ioctl(xStream.SafeFileHandle, Consts.I2C_Slave, i);
+                    var xResult = LibC.Ioctl(xHandle, Consts.I2C_Slave, new IntPtr(i));
                     if (xResult != 0)
                     {
                         continue;
@@ -34,7 +35,7 @@ namespace NetI2C
 
                     try
                     {
-                        var xByteRead = xStream.ReadByte();
+                        var xByteRead = I2CDevice.DoReadByte(xHandle);
                     }
                     catch
                     {
@@ -43,13 +44,32 @@ namespace NetI2C
                     yield return i;
 
                 }
-                yield break;
             }
         }
 
-        private static FileStream OpenDevice(int number)
+        private SafeFileHandle OpenController()
         {
-            return new FileStream("/dev/i2c-" + number, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite, 1);
+            var xHandle = LibC.Open("/dev/i2c-" + mNumber, Consts.OPEN_READ_WRITE);
+            if (xHandle < 0)
+            {
+                throw new InvalidOperationException("Open return " + xHandle);
+            }
+
+            var xSafeHandle = new SafeFileHandle(new IntPtr(xHandle), true);
+            return xSafeHandle;
+        }
+
+        public override I2CDeviceBase OpenDevice(ushort number)
+        {
+            var xHandle = OpenController();
+            var xError = LibC.Ioctl(xHandle, Consts.I2C_Slave, new IntPtr(number));
+
+            if (xError != 0)
+            {
+                throw new InvalidOperationException("Ioctl returned " + xError);
+            }
+
+            return new I2CDevice(xHandle, number);
         }
     }
 }
