@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NetI2C;
+using TerWoord.NetI2C;
 
 namespace TestApp
 {

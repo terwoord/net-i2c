@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using NetI2C;
+using TerWoord.NetI2C;
 
 namespace TestApp
 {
