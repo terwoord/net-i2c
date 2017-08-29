@@ -1,4 +1,4 @@
-﻿namespace NetI2C
+﻿namespace TerWoord.NetI2C
 {
     public enum I2CModeEnum
     {

@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>TerWoord.NetI2C</PackageId>
+    <Version>0.1</Version>
+    <Authors>M.J. ter Woord - ter Woord Computers</Authors>
+    <Company>ter Woord Computers</Company>
+    <Product>ter Woord Computers .NET Core hardware interop assembly</Product>
+    <Description>Package to utilize specialized hardware on .NET core. First step is I2C controller on linux on a Raspberry Pi</Description>
+    <RepositoryUrl>https://github.com/terwoord/net-i2c</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <AssemblyName>TerWoord.NetI2C</AssemblyName>
+    <RootNamespace>TerWoord.NetI2C</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

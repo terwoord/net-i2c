@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Xml.Schema;
 using Microsoft.Win32.SafeHandles;
 
-namespace NetI2C
+namespace TerWoord.NetI2C
 {
     public class I2CController: I2CControllerBase
     {

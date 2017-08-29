@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace NetI2C
+namespace TerWoord.NetI2C
 {
     public class I2CControllerInfo
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NetI2C
+namespace TerWoord.NetI2C
 {
     public abstract class I2CDeviceBase: IDisposable
     {

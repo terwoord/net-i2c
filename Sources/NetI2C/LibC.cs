@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 
-namespace NetI2C
+namespace TerWoord.NetI2C
 {
     public static class LibC
     {
